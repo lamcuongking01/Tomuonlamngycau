@@ -1,0 +1,6 @@
+{
+  "name": "Lời Tỏ Tình Ngọt Ngào",
+  "description": "Trang web tỏ tình crush dễ thương với hiệu ứng trái tim bay bổng, nhạc nền lãng mạn, các câu hỏi hài hước và lời chúc cá nhân hóa.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
