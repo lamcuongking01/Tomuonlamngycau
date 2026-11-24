@@ -21,9 +21,246 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="./style.css" />
   </head>
-  <body class="bg-[#080B1A] text-[#FDF2F8] antialiased selection:bg-rose-400/30 selection:text-rose-100">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body>
+    <div id="app" class="app-shell">
+      <!-- Realistic Night Sky, Full Moon, Stars, Fireflies & Rain -->
+      <div id="night-sky" class="night-sky mood-romantic" aria-hidden="true">
+        <div id="milky-way" class="milky-way"></div>
+        <div id="star-field"></div>
+        <div class="moon-wrap animate-moon-float">
+          <div id="full-moon" class="full-moon">
+            <span class="moon-crater crater-1"></span>
+            <span class="moon-crater crater-2"></span>
+            <span class="moon-crater crater-3"></span>
+          </div>
+        </div>
+        <div id="firefly-field"></div>
+        <div id="horizon-glow" class="horizon-glow"></div>
+        <div id="rain-field"></div>
+      </div>
+
+      <!-- Full-screen luminous particles across all stages -->
+      <canvas id="screen-particles" class="screen-particles" aria-hidden="true"></canvas>
+
+      <!-- Floating ambient flowers & hearts & broken hearts -->
+      <div id="ambient-flowers" class="fixed-layer z-10" aria-hidden="true"></div>
+      <div id="floating-hearts" class="fixed-layer z-10" aria-hidden="true"></div>
+      <div id="burst-hearts" class="fixed-layer z-10 burst-center" aria-hidden="true"></div>
+      <div id="broken-hearts" class="fixed-layer z-30" aria-hidden="true"></div>
+
+      <!-- Top Bar -->
+      <header class="top-header">
+        <div class="header-inner">
+          <span class="brand-title">Ánh Trăng &amp; Lá Thư</span>
+
+          <nav aria-label="Hành trình lá thư" class="stage-nav">
+            <span id="nav-letter" class="nav-step is-active">Lá thư</span>
+            <span aria-hidden="true" class="nav-sep">·</span>
+            <span id="nav-question" class="nav-step">Lời ngỏ</span>
+            <span aria-hidden="true" class="nav-sep">·</span>
+            <span id="nav-reply" class="nav-step">Hồi âm</span>
+          </nav>
+
+          <button type="button" id="music-toggle-btn" class="music-btn">
+            <span id="music-icon" class="music-icon"></span>
+            <span id="music-label">Bật · Bài 1: Khúc trăng tròn</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Stage Area -->
+      <main class="main-stage">
+        <!-- Stage 1 & 2: Sealed Pink Envelope & Slow Typewriter Letter -->
+        <section id="stage-envelope" aria-label="Lá thư tình màu hồng" class="envelope-stage">
+          <p id="sealed-intro" class="sealed-intro">
+            Dưới ánh trăng tròn đêm nay · Có một lá thư màu hồng gửi riêng cho bạn
+          </p>
+
+          <div class="envelope-stack">
+            <!-- Rising Translucent Frosted Letter Sheet -->
+            <div id="letter-paper-wrap" class="letter-paper-wrap is-closed">
+              <div class="glass-card letter-card">
+                <div class="letter-header">
+                  <span class="letter-heading">Thư gửi từ một người thầm thương</span>
+                  <button type="button" id="skip-type-btn" class="skip-btn hidden">
+                    Hiện hết chữ
+                  </button>
+                </div>
+
+                <div id="typewriter-body" class="typewriter-body">
+                  <p class="typing-placeholder">Trang thư đang mở ra dưới ánh trăng tròn...</p>
+                </div>
+
+                <div id="letter-continue-wrap" class="letter-continue-wrap hidden">
+                  <button
+                    type="button"
+                    id="continue-heart-btn"
+                    class="heart-continue-btn"
+                    aria-label="Chạm vào trái tim để tiếp tục"
+                  >
+                    <span class="animate-heart-beat heart-orb">
+                      <svg viewBox="0 0 24 24" class="icon-heart-lg" fill="currentColor" aria-hidden="true">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                      </svg>
+                    </span>
+                    <span class="heart-continue-text">Chạm vào trái tim để tiếp tục</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pink Envelope (Closed button or Opened pocket + unfolding flap) -->
+            <div id="envelope-box" class="envelope-box animate-envelope-bob">
+              <button
+                type="button"
+                id="envelope-seal-btn"
+                class="envelope-seal-btn"
+                aria-label="Mở lá thư màu hồng"
+              >
+                <div class="envelope-glow"></div>
+                <div class="envelope-body">
+                  <svg viewBox="0 0 320 220" preserveAspectRatio="none" class="envelope-svg" aria-hidden="true">
+                    <polygon points="0,0 160,118 0,220" fill="#F9A8D4" opacity="0.72" />
+                    <polygon points="320,0 160,118 320,220" fill="#F472B6" opacity="0.78" />
+                    <polygon points="0,220 160,104 320,220" fill="#EC4899" opacity="0.38" />
+                    <polygon
+                      points="0,0 160,126 320,0"
+                      fill="#FDF2F8"
+                      opacity="0.68"
+                      stroke="#F472B6"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                  <div class="wax-seal">
+                    <svg viewBox="0 0 24 24" class="icon-heart-md" fill="currentColor" aria-hidden="true">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                  </div>
+                </div>
+              </button>
+
+              <div id="envelope-opened-pocket" class="envelope-opened-pocket hidden">
+                <div id="envelope-flap" class="envelope-flap" aria-hidden="true"></div>
+                <div class="envelope-pocket-base">
+                  <svg viewBox="0 0 24 24" class="icon-heart-sm" fill="currentColor" aria-hidden="true">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                  <span>Lá thư màu hồng · Đang mở dưới ánh trăng tròn</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="open-btn-wrap" class="open-btn-wrap">
+            <button type="button" id="open-letter-btn" class="btn-primary">
+              <svg viewBox="0 0 24 24" class="icon-heart-sm" fill="currentColor" aria-hidden="true">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+              <span>Mở lá thư</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Stage 3: Confession Question & Cat Reading/Moving -->
+        <section id="stage-question" aria-label="Câu hỏi tỏ tình" class="glass-card question-card hidden">
+          <div id="question-meta" class="question-meta">
+            <span>Dưới ánh trăng tròn</span>
+            <span id="no-counter-wrap" class="hidden">
+              <span aria-hidden="true"> · </span>
+              <span id="no-counter-text"></span>
+            </span>
+          </div>
+
+          <div id="question-cat-slot" class="cat-slot"></div>
+
+          <h1 class="question-title">Bạn có muốn làm baybi của tôi không?</h1>
+          <p id="question-subline" class="question-subline"></p>
+
+          <div class="question-actions">
+            <button type="button" id="yes-btn" class="btn-primary">
+              <svg viewBox="0 0 24 24" class="icon-heart-sm" fill="currentColor" aria-hidden="true">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+              <span id="yes-btn-label">Đồng ý</span>
+            </button>
+
+            <button type="button" id="no-btn" class="btn-secondary">
+              <span id="no-btn-heart" class="hidden" aria-hidden="true">💔</span>
+              <span id="no-btn-label">Cút</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Stage 4A: Sad Ending (11 rejections -> Cat on bridge drinking beer and crying) -->
+        <section id="stage-sad" aria-label="Lời xin lỗi dịu dàng" class="glass-card sad-card hidden">
+          <div id="sad-cat-slot"></div>
+
+          <p class="sad-meta">Sau 11 lần từ chối · Một đêm mưa buồn bên cây cầu</p>
+          <h1 class="sad-title">Xin lỗi vì đã làm lỡ thời gian của bạn...</h1>
+          <div id="sad-lines" class="sad-lines"></div>
+
+          <div class="sad-footer">
+            <button type="button" id="sad-reset-btn" class="btn-secondary">
+              <svg viewBox="0 0 24 24" class="icon-sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              <span>Đọc lại lá thư từ đầu</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Stage 4B: Accepted Celebration (3D Heart 5s/6s/10s + Jumping & Hugging Cats + See-through Wishes) -->
+        <section id="stage-accepted" aria-label="Trái tim hạt 3D, lời cảm ơn và lời chúc tình yêu đôi lứa" class="accepted-stage hidden">
+          <div class="glass-card accepted-hero">
+            <div class="hero-heart-col">
+              <div class="heart3d-wrap">
+                <canvas
+                  id="heart3d-canvas"
+                  class="heart3d-canvas"
+                  aria-label="Hiệu ứng hạt trái tim 3D đập 5 giây, tan trong 6 giây và hợp lại trong 10 giây"
+                ></canvas>
+              </div>
+              <p id="heart3d-phase-label" class="heart3d-phase">Trái tim 3D đang đập (5s)</p>
+            </div>
+
+            <div class="hero-text-col">
+              <p class="accepted-kicker">Trăng tròn chứng giám · Khúc nhạc hạnh phúc</p>
+              <h1 class="accepted-title">Cảm ơn bạn đã đồng ý làm baybi của tôi!</h1>
+              <p class="accepted-desc">
+                Cảm ơn bạn vì đã không để lá thư màu hồng này phải chờ đợi trong cô đơn, cảm ơn vì cái gật đầu dịu dàng nhất đêm nay. Từ khoảnh khắc ánh mắt vô tình chạm nhau lần đầu cho đến giây phút này, trái tim tôi cuối cùng đã có một nơi bình yên để hướng về.
+              </p>
+
+              <div class="accepted-actions-row">
+                <button type="button" id="more-hearts-btn" class="btn-primary">
+                  <svg viewBox="0 0 24 24" class="icon-sm" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+                  </svg>
+                  <span>Thả thêm ngàn trái tim</span>
+                </button>
+
+                <div id="celebrate-cat-slot"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="wishes-grid" class="wishes-grid"></div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <span>Lá thư màu hồng dưới ánh trăng tròn</span>
+          <button type="button" id="footer-reset-btn" class="footer-reset-btn">
+            Xem lại từ đầu
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="./script.js"></script>
   </body>
 </html>
